@@ -23,22 +23,23 @@ def display_guests():
 # while room_in_use 
 
 def check_in():
-
+    room_number = False
+    while room_number == False:
     # after check-in , check for room being occupied..
-    floor = input("Floor: ")
-    room = input("Room Number: ")
-    
-    if hotel[floor][room]:
-      print("Room occupped")
-      return
-    else:
-         guests = int(input("How many guests?: "))
-         names = []
-    for ppl in range(guests):
-        name = input(f"Name of guest {ppl+1}: ")
-        names.append(name)
-    hotel[floor][room] = names
-    print("Welcome to our hotel.")
+        floor = input("Floor: ")
+        room = input("Room Number: ")
+
+        if hotel.get(floor) and hotel[floor].get(room):
+            print("Room occupped")
+        else:
+            guests = int(input("How many guests?: "))
+            names = []
+            room_number = True
+            for ppl in range(guests):
+                name = input(f"Name of guest {ppl+1}: ")
+                names.append(name)
+            hotel.setdefault(floor, {})[room] = names
+            print("Welcome to our hotel.")
 
 #check-out function.. also make it tell user if wrong floor or room entered.
 def check_out():
@@ -48,7 +49,7 @@ def check_out():
         del hotel[floor][room]
         print("Check-out complete, hope you enjoyed your visit!")
     else:
-        print("Wrong floor or room number!")
+        print("Wrong floor or room number, or room not occupied.")
 
 
 #main function to handle if check in or check out happens and show how many guests.
